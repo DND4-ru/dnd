@@ -1,4 +1,4 @@
-.idea
-
-/client/build
-/client/node_modules
+**/.idea
+**/.DS_Store
+**/build
+**/node_modules
