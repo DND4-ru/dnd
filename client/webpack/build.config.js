@@ -5,7 +5,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 
 module.exports = () => ({
-    entry: ['./src/main.tsx'],
+    entry: './src/main.tsx',
     mode: 'production',
     stats: {
         logging: 'error',
@@ -25,9 +25,6 @@ module.exports = () => ({
                 test: /\.tsx?$/,
                 use: ['ts-loader'],
                 exclude: /node_modules/,
-            }, {
-                test: /\.css$/i,
-                use: ['style-loader', 'css-loader'],
             }, {
                 test: /\.(jpe?g|png|gif|svg)$/i,
                 loader: 'file-loader',

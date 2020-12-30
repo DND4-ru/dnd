@@ -6,7 +6,7 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 
 module.exports = () => ({
-    entry: ['./src/main.tsx'],
+    entry: './src/index.tsx',
     mode: 'development',
     stats: {
         logging: 'error',
@@ -20,9 +20,6 @@ module.exports = () => ({
             test: /\.tsx?$/,
             use: ['ts-loader'],
             exclude: /node_modules/,
-        }, {
-            test: /\.css$/i,
-            use: ['style-loader', 'css-loader'],
         }, {
             test: /\.(jpe?g|png|gif|svg)$/i,
             loader: 'file-loader',
@@ -88,7 +85,7 @@ module.exports = () => ({
             target: 'https://dnd4.ru',
             secure: false,
             changeOrigin: true,
-        }
+        },
     },
     watch: true,
 });
