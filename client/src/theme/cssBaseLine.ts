@@ -8,10 +8,13 @@ export const cssBaseLine = (): Overrides['MuiCssBaseline'] => ({
         '@font-face': garamondFonts,
         body: {
             margin: 0,
-            fontFamily: 'EBGaramond',
+            fontFamily: 'EB Garamond',
         },
         '#dnd4': {
             height: '100vh',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
         },
     },
 });

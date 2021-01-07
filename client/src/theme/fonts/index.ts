@@ -14,55 +14,55 @@ import SemiBoldItalic from './EBGaramond-SemiBoldItalic.ttf';
 import { makeSrc } from './utils';
 
 
-const src = makeSrc('EBGaramond');
+const src = makeSrc('EB Garamond');
 export const garamondFonts: CSS.FontFace[] = [
     {
-        fontFamily: 'EBGaramond ExtraBold',
+        fontFamily: 'EB Garamond',
         src: src('ExtraBold', ExtraBold),
         fontWeight: 800,
         fontStyle: 'normal',
     }, {
-        fontFamily: 'EBGaramond ExtraBold',
+        fontFamily: 'EB Garamond',
         src: src('ExtraBold Italic', ExtraBoldItalic),
         fontWeight: 800,
         fontStyle: 'italic',
     }, {
-        fontFamily: 'EBGaramond Bold',
+        fontFamily: 'EB Garamond',
         src: src('Bold', Bold),
         fontWeight: 'bold',
         fontStyle: 'normal',
     }, {
-        fontFamily: 'EBGaramond Bold',
+        fontFamily: 'EB Garamond',
         src: src('Bold Italic', BoldItalic),
         fontWeight: 'bold',
         fontStyle: 'italic',
     }, {
-        fontFamily: 'EBGaramond SemiBold',
+        fontFamily: 'EB Garamond',
         src: src('SemiBold', SemiBold),
         fontWeight: 600,
         fontStyle: 'normal',
     }, {
-        fontFamily: 'EBGaramond SemiBold',
+        fontFamily: 'EB Garamond',
         src: src('SemiBold Italic', SemiBoldItalic),
         fontWeight: 600,
         fontStyle: 'italic',
     }, {
-        fontFamily: 'EBGaramond Medium',
+        fontFamily: 'EB Garamond',
         src: src('Medium', Medium),
         fontWeight: 500,
         fontStyle: 'normal',
     }, {
-        fontFamily: 'EBGaramond Medium',
+        fontFamily: 'EB Garamond',
         src: src('Medium Italic', MediumItalic),
         fontWeight: 500,
         fontStyle: 'italic',
     }, {
-        fontFamily: 'EBGaramond Regular',
+        fontFamily: 'EB Garamond',
         src: src('Regular', Regular),
         fontWeight: 400,
         fontStyle: 'regular',
     }, {
-        fontFamily: 'EBGaramond Regular',
+        fontFamily: 'EB Garamond',
         src: src('Regular Italic', Italic),
         fontWeight: 400,
         fontStyle: 'italic',

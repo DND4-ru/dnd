@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Route,Switch } from 'react-router-dom';
 import { CssBaseline, MuiThemeProvider } from '@material-ui/core';
 
 import { Layout } from 'src/components';
 import { theme } from 'src/theme';
 
-import { Header } from './Header';
-import { Main } from './Main';
+import { route } from './routes';
+import { TitlePage } from './TitlePage';
 
 
 const App: React.FC = () => (
@@ -15,10 +15,11 @@ const App: React.FC = () => (
         <MuiThemeProvider theme={theme}>
             <CssBaseline />
             <BrowserRouter>
-                <Layout.HeaderAndBody
-                    header={<Header />}
-                    body={<Main />}
-                />
+                <Layout.Root>
+                    <Switch>
+                        <Route path={route.title} exact component={TitlePage} />
+                    </Switch>
+                </Layout.Root>
             </BrowserRouter>
         </MuiThemeProvider>
     </React.StrictMode>
