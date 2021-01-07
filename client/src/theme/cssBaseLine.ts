@@ -1,14 +1,14 @@
 import { Overrides } from '@material-ui/core/styles/overrides.d';
 
-import { bellotaFonts } from './fonts';
+import { garamondFonts } from './fonts';
 
 
 export const cssBaseLine = (): Overrides['MuiCssBaseline'] => ({
     '@global': {
-        '@font-face': bellotaFonts,
+        '@font-face': garamondFonts,
         body: {
             margin: 0,
-            fontFamily: 'Bellota',
+            fontFamily: 'EBGaramond',
         },
         '#dnd4': {
             height: '100vh',
