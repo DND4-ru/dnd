@@ -23,7 +23,7 @@ const useClasses = makeStyles(() => ({
     },
 }));
 
-export const TitlePage: React.FC = () => {
+export const Login: React.FC = () => {
     const classes = useClasses();
 
     return (

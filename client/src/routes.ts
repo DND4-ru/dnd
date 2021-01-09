@@ -1,3 +1,8 @@
 export const route = {
-    title: '/',
+    login: '/login',
+    worlds: '/worlds',
 };
+
+export const publicPaths = [
+    route.login,
+];
