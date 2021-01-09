@@ -1,13 +1,14 @@
 use main
 
-const size = {
-    tiny_id: ObjectId(),
-    small_id: ObjectId(),
-    medium_id: ObjectId(),
-    large_id: ObjectId(),
-    huge_id: ObjectId(),
-    gargantuan_id: ObjectId(),
-}
+const createEnumeration = (names, callback) =>
+    names.reduce((obj, name) => ({...obj, [name]: callback(name)}), {})
+
+const condition = createEnumeration(["lt", "le", "eq", "ge", "gt", "ne"], (name) => name)
+
+const size = createEnumeration(
+    ["tiny_id", "small_id", "medium_id", "large_id", "huge_id", "gargantuan_id"],
+    () => ObjectId()
+)
 
 db.sizes.insertMany([{
     _id: size.tiny_id,
@@ -35,10 +36,10 @@ db.sizes.insertMany([{
     order: 6,
 }])
 
-const item_type = {
-    armor_id: ObjectId(),
-    weapon_id: ObjectId(),
-}
+const item_type = createEnumeration(
+    ["armor_id", "weapon_id"],
+    () => ObjectId()
+)
 
 db.item_types.insertMany([{
     _id: item_type.armor_id,
@@ -64,37 +65,17 @@ db.races.insert({
     speed: 25,
 })
 
-const armor = {
-    padded_id: ObjectId(),
-    leather_id: ObjectId(),
-    studded_leather_id: ObjectId(),
-    hide_id: ObjectId(),
-    chain_shirt_id: ObjectId(),
-    scale_mail_id: ObjectId(),
-    breastplate_id: ObjectId(),
-    half_plate_id: ObjectId(),
-    ring_mail_id: ObjectId(),
-    chain_mail_id: ObjectId(),
-    splint_id: ObjectId(),
-    plate_id: ObjectId(),
-}
+const armor = createEnumeration(
+    ["padded_id", "leather_id", "studded_leather_id", "hide_id", "chain_shirt_id", "scale_mail_id", "breastplate_id",
+        "half_plate_id", "ring_mail_id", "chain_mail_id", "splint_id", "plate_id"],
+    () => ObjectId()
+)
 
-const condition = {
-    lt: "less_than",
-    le: "less_or_equal",
-    eq: "equal",
-    ge: "greater_or_equal",
-    gt: "greater_than",
-    ne: "not_equal",
-}
-
-const attribute = ((names = [
+const attribute = createEnumeration([
     "race", "speed", "armor_class",
     "strength",
     "dexterity_modifier"
-]) => {
-    return names.reduce((obj, name) => ({...obj, [name]: `attribute.${name}`}), {});
-})();
+], (name) => `attribute.${name}`)
 
 db.armor_types.insertMany([{
     _id: armor.padded_id,
@@ -107,7 +88,12 @@ db.armor_types.insertMany([{
     weight: 8,
     effects: [{
         target: attribute.armor_class,
-        value: 11
+        modifier: {
+            type: "add",
+            value: 11,
+        },
+        when: { rule: 'any' },
+        except: { rule: 'none' },
     }],
 }, {
     _id: armor.leather_id,
@@ -121,7 +107,12 @@ db.armor_types.insertMany([{
     weight: 10,
     effects: [{
         target: attribute.armor_class,
-        value: 11
+        modifier: {
+            type: "add",
+            value: 11,
+        },
+        when: { rule: 'any' },
+        except: { rule: 'none' },
     }],
 }, {
     _id: armor.studded_leather_id,
@@ -133,8 +124,12 @@ db.armor_types.insertMany([{
     price: 45,
     weight: 13,
     effects: [{
-        target: attribute.armor_class,
-        value: 12
+        modifier: {
+            type: "add",
+            value: 12,
+        },
+        when: { rule: 'any' },
+        except: { rule: 'none' },
     }],
 }, {
     _id: armor.hide_id,
@@ -149,23 +144,49 @@ db.armor_types.insertMany([{
     weight: 12,
     effects: [{
         target: attribute.armor_class,
-        value: 12
+        modifier: {
+            type: "add",
+            value: 12,
+        },
+        when: {
+            rule: 'defined',
+            conditions: [{
+                source: attribute.dexterity_modifier,
+                condition: condition.lt,
+                value: 1,
+            }]
+        },
+        except: { rule: 'none' },
     }, {
         target: attribute.armor_class,
-        value: 1,
-        except: [{
-            type: attribute.dexterity_modifier,
-            condition: condition.ge,
-            value: 1,
-        }],
+        modifier: {
+            type: "add",
+            value: 13,
+        },
+        when: {
+            rule: 'defined',
+            conditions: [{
+                source: attribute.dexterity_modifier,
+                condition: condition.eq,
+                value: 1,
+            }]
+        },
+        except: { rule: 'none' },
     }, {
         target: attribute.armor_class,
-        value: 1,
-        except: [{
-            type: attribute.dexterity_modifier,
-            condition: condition.ge,
-            value: 2,
-        }],
+        modifier: {
+            type: "add",
+            value: 14,
+        },
+        when: {
+            rule: 'defined',
+            conditions: [{
+                source: attribute.dexterity_modifier,
+                condition: condition.ge,
+                value: 2,
+            }]
+        },
+        except: { rule: 'none' },
     }],
 }, {
     _id: armor.chain_shirt_id,
@@ -180,23 +201,49 @@ db.armor_types.insertMany([{
     weight: 20,
     effects: [{
         target: attribute.armor_class,
-        value: 13,
+        modifier: {
+            type: "add",
+            value: 13,
+        },
+        when: {
+            rule: 'defined',
+            conditions: [{
+                source: attribute.dexterity_modifier,
+                condition: condition.lt,
+                value: 1,
+            }]
+        },
+        except: { rule: 'none' },
     }, {
         target: attribute.armor_class,
-        value: 1,
-        except: [{
-            type: attribute.dexterity_modifier,
-            condition: condition.ge,
-            value: 1,
-        }],
+        modifier: {
+            type: "add",
+            value: 14,
+        },
+        when: {
+            rule: 'defined',
+            conditions: [{
+                source: attribute.dexterity_modifier,
+                condition: condition.eq,
+                value: 1,
+            }]
+        },
+        except: { rule: 'none' },
     }, {
         target: attribute.armor_class,
-        value: 1,
-        except: [{
-            type: attribute.dexterity_modifier,
-            condition: condition.ge,
-            value: 2,
-        }],
+        modifier: {
+            type: "add",
+            value: 15,
+        },
+        when: {
+            rule: 'defined',
+            conditions: [{
+                source: attribute.dexterity_modifier,
+                condition: condition.ge,
+                value: 2,
+            }]
+        },
+        except: { rule: 'none' },
     }],
 }, {
     _id: armor.scale_mail_id,
@@ -210,23 +257,49 @@ db.armor_types.insertMany([{
     weight: 45,
     effects: [{
         target: attribute.armor_class,
-        value: 14
+        modifier: {
+            type: "add",
+            value: 14,
+        },
+        when: {
+            rule: 'defined',
+            conditions: [{
+                source: attribute.dexterity_modifier,
+                condition: condition.lt,
+                value: 1,
+            }]
+        },
+        except: { rule: 'none' },
     }, {
         target: attribute.armor_class,
-        value: 1,
-        except: [{
-            type: attribute.dexterity_modifier,
-            condition: condition.ge,
-            value: 1,
-        }],
+        modifier: {
+            type: "add",
+            value: 15,
+        },
+        when: {
+            rule: 'defined',
+            conditions: [{
+                source: attribute.dexterity_modifier,
+                condition: condition.eq,
+                value: 1,
+            }]
+        },
+        except: { rule: 'none' },
     }, {
         target: attribute.armor_class,
-        value: 1,
-        except: [{
-            type: attribute.dexterity_modifier,
-            condition: condition.ge,
-            value: 2,
-        }],
+        modifier: {
+            type: "add",
+            value: 16,
+        },
+        when: {
+            rule: 'defined',
+            conditions: [{
+                source: attribute.dexterity_modifier,
+                condition: condition.ge,
+                value: 2,
+            }]
+        },
+        except: { rule: 'none' },
     }],
 }, {
     _id: armor.breastplate_id,
@@ -241,23 +314,49 @@ db.armor_types.insertMany([{
     weight: 20,
     effects: [{
         target: attribute.armor_class,
-        value: 14
+        modifier: {
+            type: "add",
+            value: 14,
+        },
+        when: {
+            rule: 'defined',
+            conditions: [{
+                source: attribute.dexterity_modifier,
+                condition: condition.lt,
+                value: 1,
+            }]
+        },
+        except: { rule: 'none' },
     }, {
         target: attribute.armor_class,
-        value: 1,
-        except: [{
-            type: attribute.dexterity_modifier,
-            condition: condition.ge,
-            value: 1,
-        }],
+        modifier: {
+            type: "add",
+            value: 15,
+        },
+        when: {
+            rule: 'defined',
+            conditions: [{
+                source: attribute.dexterity_modifier,
+                condition: condition.eq,
+                value: 1,
+            }]
+        },
+        except: { rule: 'none' },
     }, {
         target: attribute.armor_class,
-        value: 1,
-        except: [{
-            type: attribute.dexterity_modifier,
-            condition: condition.ge,
-            value: 2,
-        }],
+        modifier: {
+            type: "add",
+            value: 16,
+        },
+        when: {
+            rule: 'defined',
+            conditions: [{
+                source: attribute.dexterity_modifier,
+                condition: condition.ge,
+                value: 2,
+            }]
+        },
+        except: { rule: 'none' },
     }],
 }, {
     _id: armor.half_plate_id,
@@ -270,23 +369,49 @@ db.armor_types.insertMany([{
     weight: 40,
     effects: [{
         target: attribute.armor_class,
-        value: 15
+        modifier: {
+            type: "add",
+            value: 15,
+        },
+        when: {
+            rule: 'defined',
+            conditions: [{
+                source: attribute.dexterity_modifier,
+                condition: condition.lt,
+                value: 1,
+            }]
+        },
+        except: { rule: 'none' },
     }, {
         target: attribute.armor_class,
-        value: 1,
-        except: [{
-            type: attribute.dexterity_modifier,
-            condition: condition.ge,
-            value: 1,
-        }],
+        modifier: {
+            type: "add",
+            value: 16,
+        },
+        when: {
+            rule: 'defined',
+            conditions: [{
+                source: attribute.dexterity_modifier,
+                condition: condition.eq,
+                value: 1,
+            }]
+        },
+        except: { rule: 'none' },
     }, {
         target: attribute.armor_class,
-        value: 1,
-        except: [{
-            type: attribute.dexterity_modifier,
-            condition: condition.ge,
-            value: 2,
-        }],
+        modifier: {
+            type: "add",
+            value: 17,
+        },
+        when: {
+            rule: 'defined',
+            conditions: [{
+                source: attribute.dexterity_modifier,
+                condition: condition.ge,
+                value: 2,
+            }]
+        },
+        except: { rule: 'none' },
     }],
 }, {
     _id: armor.ring_mail_id,
@@ -300,7 +425,12 @@ db.armor_types.insertMany([{
     weight: 40,
     effects: [{
         target: attribute.armor_class,
-        value: 14
+        modifier: {
+            type: "add",
+            value: 14,
+        },
+        when: { rule: 'any' },
+        except: { rule: 'none' },
     }],
 }, {
     _id: armor.chain_mail_id,
@@ -314,19 +444,27 @@ db.armor_types.insertMany([{
     weight: 55,
     effects: [{
         target: attribute.armor_class,
-        value: 16
+        value: 16,
+        when: { rule: 'any' },
+        except: { rule: 'none' },
     }, {
         target: attribute.speed,
-        value: -10,
-        except: [{
-            type: attribute.race,
-            condition: condition.eq,
-            value: dwarf_race_id,
-        }, {
-            type: attribute.strength,
-            condition: condition.ge,
-            value: 13,
-        }],
+        modifier: {
+            type: "sub",
+            value: 10,
+        },
+        except: {
+            rule: 'defined',
+            conditions: [{
+                source: attribute.race,
+                condition: condition.eq,
+                value: dwarf_race_id,
+            }, {
+                source: attribute.strength,
+                condition: condition.ge,
+                value: 13,
+            }],
+        },
     }],
 }, {
     _id: armor.splint_id,
@@ -340,19 +478,27 @@ db.armor_types.insertMany([{
     weight: 60,
     effects: [{
         target: attribute.armor_class,
-        value: 17
+        value: 17,
+        when: { rule: 'any' },
+        except: { rule: 'none' },
     }, {
         target: attribute.speed,
-        value: -10,
-        except: [{
-            type: attribute.race,
-            condition: condition.eq,
-            value: dwarf_race_id,
-        }, {
-            type: attribute.strength,
-            condition: condition.ge,
-            value: 15,
-        }],
+        modifier: {
+            type: "sub",
+            value: 10,
+        },
+        except: {
+            rule: 'defined',
+            conditions: [{
+                source: attribute.race,
+                condition: condition.eq,
+                value: dwarf_race_id,
+            }, {
+                source: attribute.strength,
+                condition: condition.ge,
+                value: 15,
+            }],
+        },
     }],
 }, {
     _id: armor.plate_id,
@@ -367,18 +513,26 @@ db.armor_types.insertMany([{
     weight: 65,
     effects: [{
         target: attribute.armor_class,
-        value: 18
+        value: 18,
+        when: { rule: 'any' },
+        except: { rule: 'none' },
     }, {
         target: attribute.speed,
-        value: -10,
-        except: [{
-            target: attribute.race,
-            condition: condition.eq,
-            value: dwarf_race_id,
-        }, {
-            target: attribute.strength,
-            condition: condition.ge,
-            value: 15,
-        }],
+        modifier: {
+            type: "sub",
+            value: 10,
+        },
+        except: {
+            rule: 'defined',
+            conditions: [{
+                source: attribute.race,
+                condition: condition.eq,
+                value: dwarf_race_id,
+            }, {
+                source: attribute.strength,
+                condition: condition.ge,
+                value: 15,
+            }],
+        },
     }],
 }])
