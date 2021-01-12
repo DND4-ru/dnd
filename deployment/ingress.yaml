@@ -6,6 +6,7 @@ spec:
   tls:
     - hosts:
         - dnd4.ru
+        - express.dnd4.ru
       secretName: tls-secret
   rules:
     - host: dnd4.ru
@@ -15,3 +16,10 @@ spec:
             backend:
               serviceName: webui-service
               servicePort: 80
+    - host: express.dnd4.ru
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: mongo-express-service
+              servicePort: 8081
