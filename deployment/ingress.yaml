@@ -1,4 +1,4 @@
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ingress
@@ -13,13 +13,19 @@ spec:
       http:
         paths:
           - path: /
+            pathType: Prefix
             backend:
-              serviceName: webui-service
-              servicePort: 80
+              service:
+                name: webui-service
+                port:
+                  number: 80
     - host: express.dnd4.ru
       http:
         paths:
           - path: /
+            pathType: Prefix
             backend:
-              serviceName: mongo-express-service
-              servicePort: 8081
+              service:
+                name: mongo-express-service
+                port:
+                  number: 8081
