@@ -31,16 +31,6 @@ Builds the app for production to the `build` folder.
 
 Docker container with apache.
 
-### SSL certificates
-
-If you do not have certificates, you can generate them in a separate folder:
-
-```shell script
-mkdir certs && cd certs
-openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout apache-selfsigned.key -out apache-selfsigned.crt
-openssl dhparam -out dhparam.pem 2048
-```
-
 ### Build
 
 ```shell script
@@ -50,12 +40,7 @@ docker build -t webui .
 ### Run
 
 ```shell script
-docker run -p ${HOST_HTTP_PORT}:80 -p ${HOST_HTTPS_PORT}:443 -v ${YOUR_CERTS_LOCATION}:/usr/local/apache2/certs -e HTTPS_SERVER_ADDR=${HTTPS_SERVER_ADDR} -e SERVER_NAME=${SERVER_NAME} webui
+docker run -p ${HOST_HTTP_PORT}:80 webui
 ```
 
-`${SERVER_NAME}` and `${HOST_HTTP_PORT}` and `${HOST_HTTPS_PORT}` - server name, where target http and https ports
-should be mapped.
-
-`${YOUR_CERTS_LOCATION}` - location of the ssl certificates on your host machine.
-
-`${HTTPS_SERVER_ADDR}` - path of https server (it will redirect http requests to this address). For example: https://dnd4.ru or https://127.0.0.1:8081.
+`${HOST_HTTP_PORT}` - where target http port should be mapped.
