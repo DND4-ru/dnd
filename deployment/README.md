@@ -15,3 +15,12 @@ mkdir certs && cd certs
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout apache-selfsigned.key -out apache-selfsigned.crt
 openssl dhparam -out dhparam.pem 2048
 ```
+
+### Running
+
+Right now it's based on `minikube` and local persistent storage.
+
+Script `deploy.sh` will:
+ * install ingress
+ * start minikube
+ * apply configurations
