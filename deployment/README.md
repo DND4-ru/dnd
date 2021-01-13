@@ -21,6 +21,6 @@ openssl dhparam -out dhparam.pem 2048
 Right now it's based on `minikube` and local persistent storage.
 
 Script `deploy.sh` will:
- * install ingress
  * start minikube
+ * install ingress
  * apply configurations
